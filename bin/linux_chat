@@ -1,0 +1,32 @@
+ABORT BUSY
+ECHO ON
+ABORT "NO CARRIER"
+#ABORT "ERROR"
+ABORT "NO DIALTONE"
+TIMEOUT 60
+
+# Test
+'' 'AT'
+SAY "	PPPD send AT command...\n "
+
+# SIM insert
+'OK' 'ATE0'
+SAY "	set ATE0\n"
+
+# Attach
+#'OK' 'AT+COPS=0'
+#SAY "	Attach(AT+COPS)\n"
+
+# Wait for succ, start data connection
+#TIMEOUT 100 OK-AT+COPS=0-OK-AT+COPS=0-OK-AT+COPS=0-OK-AT+COPS=0-OK-AT+COPS=0-OK-AT+COPS=0-OK-AT+COPS=0-#OK-AT+COPS=0-OK-AT+COPS=0-OK-AT+COPS=0-OK 'ATD*99#'
+#SAY "	Dailing(ATD*99#)\n"
+
+'OK' 'AT+CGDCONT=1,"IP","3gnet"'
+SAY "	Set APN(3gnet)\n"
+
+'OK' 'ATD*99#'
+
+
+'CONNECT' ''
+SAY "	Send CONNECT\n"
+

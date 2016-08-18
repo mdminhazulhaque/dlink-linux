@@ -1,0 +1,28 @@
+ACTION!="add", GOTO="end"
+ATTRS{idVendor}=="2001",ATTRS{idProduct}=="7600",GOTO="begin"
+GOTO="end"
+
+LABEL="begin"
+KERNEL=="sr*", GOTO="switch"
+SUBSYSTEM=="usb",GOTO="modprobe"
+KERNEL=="ttyUSB*", SUBSYSTEMS=="usb",ATTRS{bInterfaceProtocol}=="00",GOTO="symlink"
+GOTO="end"
+
+LABEL="switch"
+ATTRS{bNumInterfaces}==" 1",RUN+="/usr/sbin/usb_modeswitch -V 0x2001 -P 0x7600 -v 0x2001 -p 0x7600 -u 2"
+GOTO="end"
+
+
+LABEL="modprobe"
+ATTRS{bNumInterfaces}!=" 1", RUN+="/sbin/modprobe usbserial vendor=0x2001 product=0x7600"
+GOTO="end"
+
+
+LABEL="symlink"
+ATTRS{bInterfaceNumber}=="00", SYMLINK:="ttyUSB_sprd_extension"
+ATTRS{bInterfaceNumber}=="01", SYMLINK:="ttyUSB_sprd_modem"
+ATTRS{bInterfaceNumber}=="02", SYMLINK:="ttyUSB_sprd_control"
+ATTRS{bInterfaceNumber}=="04", SYMLINK:="ttyUSB_sprd_service"
+GOTO="end"
+
+LABEL="end"

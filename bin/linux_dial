@@ -1,0 +1,12 @@
+/dev/ttyUSB_sprd_modem
+115200
+connect '/usr/sbin/chat -v -f /etc/ppp/peers/linux_chat'
+usepeerdns
+defaultroute
+noauth
+persist
+noccp
+nobsdcomp
+noipv6
+noipx
+
